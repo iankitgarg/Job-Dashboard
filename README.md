@@ -13,5 +13,6 @@ Steps to run Application :
 
 Architecture -
 
-<img width="1142" height="650" alt="image" src="https://github.com/user-attachments/assets/2a203d74-3be1-436a-bf99-e56a1f88c494" />
+<img width="1170" height="641" alt="image" src="https://github.com/user-attachments/assets/c8dc1229-69c8-4da6-a37f-0db38a42f30a" />
+
 
