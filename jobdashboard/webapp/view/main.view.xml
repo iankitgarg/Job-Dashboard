@@ -1,0 +1,132 @@
+<mvc:View
+    controllerName="com.auritas.jobdashboard.controller.main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page title="Archiving Job Scheduler Dashboard">
+
+        <content>
+
+            <!-- ================= KPI TILES ================= -->
+            <FlexBox wrap="Wrap" justifyContent="SpaceBetween" class="sapUiSmallMargin">
+
+                <GenericTile header="Total Jobs" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/totalJobs}" />
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile header="Successful Jobs" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/success}" valueColor="Good" />
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile header="Failed Jobs" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/failed}" valueColor="Error" />
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile header="Blocked Jobs" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/blocked}" valueColor="Critical" />
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile header="Memory Saved (GB)" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/memorySaved}" unit="GB" valueColor="Good" />
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile header="Estimated Savings (USD)" class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent value="{/kpi/roi}" unit="$" valueColor="Good" />
+                    </TileContent>
+                </GenericTile>
+
+            </FlexBox>
+
+            <!-- ================= FILTER BAR ================= -->
+            <Toolbar class="sapUiSmallMarginTop">
+
+                <SearchField
+                    width="25%"
+                    placeholder="Search Job Name..."
+                    liveChange="onSearch"/>
+
+                <Select change="onStatusFilter" width="15%">
+                    <items>
+                        <core:Item key="" text="All Status"/>
+                        <core:Item key="failed" text="Failed"/>
+                        <core:Item key="blocked" text="Blocked"/>
+                        <core:Item key="running" text="Running"/>
+                        <core:Item key="scheduled" text="Scheduled"/>
+                        <core:Item key="completed" text="Completed"/>
+                    </items>
+                </Select>
+
+            </Toolbar>
+
+            <!-- ================= JOB TABLE ================= -->
+            <Table
+                id="jobTable"
+                items="{/jobs}"
+                growing="true"
+                class="sapUiSmallMarginTop">
+
+                <columns>
+
+                    <Column><Text text="Job"/></Column>
+                    <Column><Text text="System"/></Column>
+                    <Column><Text text="Object"/></Column>
+                    <Column><Text text="Phase"/></Column>
+                    <Column><Text text="Status"/></Column>
+                    <Column><Text text="Last Run"/></Column>
+                    <Column><Text text="Next Run"/></Column>
+                    <Column><Text text="Saved (GB)"/></Column>
+
+                </columns>
+
+                <items>
+                    <ColumnListItem>
+
+                        <cells>
+
+                            <Text text="{name}" />
+
+                            <Text text="{system}" />
+
+                            <Text text="{archiving_object}" />
+
+                            <Text text="{phase}" />
+
+                            <!-- STATUS with color -->
+                            <ObjectStatus
+                                text="{status}"
+                                state="{
+                                    path: 'status',
+                                    formatter: '.formatStatus'
+                                }"/>
+
+                            <Text text="{last_run}" />
+
+                            <Text text="{next_run}" />
+
+                            <ObjectNumber
+                                number="{metrics/db_space_reclaimed_gb}"
+                                unit="GB"/>
+
+                        </cells>
+
+                    </ColumnListItem>
+                </items>
+
+            </Table>
+
+        </content>
+    </Page>
+</mvc:View>
